@@ -60,23 +60,10 @@ public class DiscardPile {
      * @return the Card specified if it exists, or null if it doesn't
      */
     public Card removeCard(Card card) {
-        int removeIndex = -1;
-        for (int i = 0; i < size() && removeIndex == -1; i++) {
-            if (card.equals(getDiscardPile()[i])) {
-                removeIndex = i;
-            }
-        }
-        if (removeIndex == -1) {
+        boolean result = CardUtilities.removeCard(card, getDiscardPile());
+        if (!result) {
             return null;
         }
-        Card[] newDiscardPile = new Card[size() - 1];
-        for (int i = 0; i < removeIndex; i++) {
-            newDiscardPile[i] = getDiscardPile()[i];
-        }
-        for (int i = removeIndex; i < size() - 1; i++) {
-            newDiscardPile[i] = getDiscardPile()[i + 1];
-        }
-        this.discardPile = newDiscardPile;
         return card;
     }
 
@@ -100,22 +87,6 @@ public class DiscardPile {
      */
     @Override
     public String toString() {
-        StringBuilder pileString = new StringBuilder();
-        String nullCardString = "0 of Nothing";
-        String separator = ", ";
-        String endOfList = ".";
-        for (int i = 0; i < size(); i++) {
-            if (getDiscardPile()[i] == null) {
-                pileString.append(nullCardString);
-            } else {
-                pileString.append(getDiscardPile()[i].toString());
-            }
-            if (i < size() - 1) {
-                pileString.append(separator);
-            } else {
-                pileString.append(endOfList);
-            }
-        }
-        return pileString.toString();
+        return CardUtilities.convertToString(getDiscardPile());
     }
 }

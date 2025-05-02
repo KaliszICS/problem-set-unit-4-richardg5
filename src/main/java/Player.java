@@ -76,20 +76,19 @@ public class Player {
     /**
      * Draws a card from the specified deck and adds it to the player's hand.<br><br>
      * 
-     * If the drawn card is null, it is replaced with a card with name "0", suit "Nothing", and value 0.
+     * If the drawn card is null, it is not added to the hand.
      * @param deck the Deck the card should be drawn from
      */
     public void draw(Deck deck) {
         Card card = deck.draw();
-        if (card == null) {
-            card = new Card("0", "Nothing", 0);
+        if (card != null) {
+            Card[] newHand = new Card[size() + 1];
+            for (int i = 0; i < size(); i++) {
+                newHand[i] = getHand()[i];
+            }
+            newHand[newHand.length - 1] = card;
+            this.hand = newHand;
         }
-        Card[] newHand = new Card[size() + 1];
-        for (int i = 0; i < size(); i++) {
-            newHand[i] = getHand()[i];
-        }
-        newHand[newHand.length - 1] = card;
-        this.hand = newHand;
     }
 
     /**
@@ -99,7 +98,7 @@ public class Player {
      * @return true if the card exists in hand and was successfully moved, false otherwise
      */
     public boolean returnCard(Card card, DiscardPile discardPile) {
-        boolean result = removeFromHand(card);
+        boolean result = CardUtilities.removeCard(card, discardPile.getDiscardPile());
         if (result) {
             discardPile.addCard(card);
         }
@@ -113,7 +112,7 @@ public class Player {
      * @return true if the card exists in hand and was successfully moved, false otherwise
      */
     public boolean returnCard(Card card, Deck deck) {
-        boolean result = removeFromHand(card);
+        boolean result = CardUtilities.removeCard(card, getHand());
         if (result) {
             Card[] newDeck = new Card[deck.size() + 1];
             for (int i = 0; i < newDeck.length - 1; i++) {
@@ -136,48 +135,6 @@ public class Player {
      */
     @Override
     public String toString() {
-        StringBuilder playerString = new StringBuilder(getName() + ", " + getAge() + ", ");
-        String nullCardString = "0 of Nothing";
-        String separator = ", ";
-        String endOfList = ".";
-        for (int i = 0; i < size(); i++) {
-            if (getHand()[i] == null) {
-                playerString.append(nullCardString);
-            } else {
-                playerString.append(getHand()[i].toString());
-            }
-            if (i < size() - 1) {
-                playerString.append(separator);
-            } else {
-                playerString.append(endOfList);
-            }
-        }
-        return playerString.toString();
-    }
-
-    /**
-     * Removes the specified card from hand.
-     * @param card the Card to be removed from hand
-     * @return true if the card exists and was removed, false otherwise
-     */
-    private boolean removeFromHand(Card card) {
-        int removeIndex = -1;
-        for (int i = 0; i < size() && removeIndex == -1; i++) {
-            if (getHand()[i].equals(card)) {
-                removeIndex = i;
-            }
-        }
-        if (removeIndex == -1) {
-            return false;
-        }
-        Card[] newHand = new Card[size() - 1];
-        for (int i = 0; i < removeIndex; i++) {
-            newHand[i] = getHand()[i];
-        }
-        for (int i = removeIndex; i < size() - 1; i++) {
-            newHand[i] = getHand()[i + 1];
-        }
-        this.hand = newHand;
-        return true;
+        return getName() + ", " + getAge() + ", " + CardUtilities.convertToString(getHand());
     }
 }
