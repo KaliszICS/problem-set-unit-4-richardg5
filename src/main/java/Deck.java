@@ -59,11 +59,7 @@ public class Deck {
             return null;
         }
         Card topCard = this.deck[0];
-        Card[] newDeck = new Card[size() - 1];
-        for (int i = 1; i < size(); i++) {
-            newDeck[i - 1] = this.deck[i];
-        }
-        this.deck = newDeck;
+        deck = CardUtilities.removeCard(topCard, deck);
         return topCard;
     }
 

@@ -9,11 +9,10 @@ public final class CardUtilities {
 
     /**
      * Removes the specified card from a specified array of Cards.
-     * @param card the Card to be removed from hand
      * @param array the array of Cards card should be removed from
      * @return true if the card exists and was removed, false otherwise
      */
-    public static boolean removeCard(Card card, Card[] array) {
+    public static Card[] removeCard(Card card, Card[] array) {
         int removeIndex = -1;
         for (int i = 0; i < array.length && removeIndex == -1; i++) {
             if (array[i].equals(card)) {
@@ -21,7 +20,7 @@ public final class CardUtilities {
             }
         }
         if (removeIndex == -1) {
-            return false;
+            return array;
         }
         Card[] newArray = new Card[array.length - 1];
         for (int i = 0; i < removeIndex; i++) {
@@ -30,8 +29,7 @@ public final class CardUtilities {
         for (int i = removeIndex; i < array.length - 1; i++) {
             newArray[i] = array[i + 1];
         }
-        array = newArray;
-        return true;
+        return newArray;
     }
 
     /**

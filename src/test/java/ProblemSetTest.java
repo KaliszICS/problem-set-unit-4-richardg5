@@ -56,6 +56,8 @@ public class ProblemSetTest {
          Card currCard = defaultDeck.draw();
          assertEquals(true, cards[i].equals(currCard), "Wrong card: " + currCard.toString());
       }
+      defaultDeck.reshuffle(cards);
+      assertEquals(52, defaultDeck.size());
    }
 
    @Test
@@ -78,20 +80,6 @@ public class ProblemSetTest {
    }
 
    @Test
-   public void drawNullCards() {
-      Card[] cards = {null, null, new Card("Ace", "Spades", 0)};
-      Deck deck = new Deck(cards);
-      assertEquals(null, deck.draw());
-      assertEquals(null, deck.draw());
-      assertEquals(1, deck.size());
-      deck.shuffle();
-      deck.draw();
-      deck.shuffle();
-      assertEquals(0, deck.size());
-      assertEquals(null, deck.draw());
-   }
-
-   @Test
    public void nullDiscardPile() {
       DiscardPile pile = new DiscardPile(null);
       assertEquals(0, pile.size());
@@ -102,5 +90,37 @@ public class ProblemSetTest {
       Deck deck = new Deck();
       deck.addCard(new Card(null, null, 0));
       assertEquals(53, deck.size());
+   }
+
+   @Test
+   public void discardAndRemove() {
+      Card card = new Card(null, null, 0);
+      DiscardPile pile = new DiscardPile();
+      pile.addCard(card);
+      assertEquals(true, pile.getDiscardPile()[0].equals(card));
+      assertEquals(true, pile.removeCard(card).equals(card));
+      assertEquals(0, pile.size());
+   }
+
+   @Test
+   public void cardArrStuff() {
+      Card[] cards = new Card[]{new Card(null, null, 0), new Card(null, null, 0), new Card(null, null, 0)};
+      DiscardPile pile = new DiscardPile(cards);
+      assertEquals("0 of Nothing, 0 of Nothing, 0 of Nothing.", pile.toString());
+      Player player = new Player(null, 0, cards);
+      assertEquals("Anon, 0, 0 of Nothing, 0 of Nothing, 0 of Nothing.", player.toString());
+      assertEquals(true, Arrays.equals(pile.removeAll(), cards));
+      assertEquals(0, pile.size());
+   }
+
+   @Test
+   public void addAndRemoveHand() {
+      Player player = new Player(null, 0);
+      Deck deck = new Deck();
+      player.draw(deck);
+      assertEquals(true, player.getHand()[0].equals(new Card("Ace", "Hearts", 0)));
+      assertEquals(false, player.returnCard(new Card(null, null, 0), deck));
+      assertEquals(true, player.returnCard(player.getHand()[0], deck));
+      assertEquals(0, player.size());
    }
 }

@@ -56,8 +56,10 @@ public class DiscardPile {
      * @return the Card specified if it exists, or null if it doesn't
      */
     public Card removeCard(Card card) {
-        boolean result = CardUtilities.removeCard(card, getDiscardPile());
-        if (!result) {
+        int oldSize = size();
+        
+        this.discardPile = CardUtilities.removeCard(card, getDiscardPile());
+        if (size() == oldSize) {
             return null;
         }
         return card;

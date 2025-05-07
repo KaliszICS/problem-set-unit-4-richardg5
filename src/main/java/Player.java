@@ -81,14 +81,7 @@ public class Player {
      */
     public void draw(Deck deck) {
         Card card = deck.draw();
-        if (card != null) {
-            Card[] newHand = new Card[size() + 1];
-            for (int i = 0; i < size(); i++) {
-                newHand[i] = getHand()[i];
-            }
-            newHand[newHand.length - 1] = card;
-            this.hand = newHand;
-        }
+        this.hand = CardUtilities.addCard(this.hand, card);
     }
 
     /**
@@ -98,11 +91,13 @@ public class Player {
      * @return true if the card exists in hand and was successfully moved, false otherwise
      */
     public boolean returnCard(Card card, DiscardPile discardPile) {
-        boolean result = CardUtilities.removeCard(card, discardPile.getDiscardPile());
-        if (result) {
+        int oldSize = size();
+        this.hand = CardUtilities.removeCard(card, discardPile.getDiscardPile());
+        if (oldSize != size()) {
             discardPile.addCard(card);
+            return true;
         }
-        return result;
+        return false;
     } 
 
     /**
@@ -112,17 +107,14 @@ public class Player {
      * @return true if the card exists in hand and was successfully moved, false otherwise
      */
     public boolean returnCard(Card card, Deck deck) {
-        boolean result = CardUtilities.removeCard(card, getHand());
-        if (result) {
-            Card[] newDeck = new Card[deck.size() + 1];
-            for (int i = 0; i < newDeck.length - 1; i++) {
-                newDeck[i] = deck.draw();
-            }
-            newDeck[newDeck.length - 1] = card;
-            deck = new Deck(newDeck);
-            deck.shuffle();
+        int oldSize = size();
+        this.hand = CardUtilities.removeCard(card, getHand());
+        if (size() != oldSize) {
+            deck.addCard(card);
+            return true;
         }
-        return result;
+        return false;
+        
     }
 
     /**
