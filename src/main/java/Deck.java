@@ -11,7 +11,7 @@ public class Deck {
     /**
      * Creates a deck of cards. The deck with be a standard 52 playing card deck with suits Hearts, Clubs, Diamonds, and Spades.<br><br>
      * 
-     * The deck will be in order of Ace through King of Hearts, Ace through King of Clubs, Ace through King of Diamonds, and Ace through King of Spades.
+     * The deck will be in order of Ace through King of Hearts, Ace through King of Clubs, Ace through King of Diamonds, and Ace through King of Spades. Ace is considered the lowest card.
      */
     public Deck() {
         // put all 4 suits into an array to iterate through instead of making separate for loops for each
@@ -80,5 +80,24 @@ public class Deck {
             this.deck[e] = this.deck[randomIndex];
             this.deck[randomIndex] = tempCard;
         }
+    }
+
+    /**
+     * Adds the specified card to the deck. Will not add if specified Card is null.
+     * @param card the Card to be added to the deck
+     */
+    public void addCard(Card card) {
+        this.deck = CardUtilities.addCard(this.deck, card);
+    }
+
+    /**
+     * Adds the specified array of Cards into the deck and shuffles the Deck afterwards.
+     * @param cards the array of Cards to be added to the Deck
+     */
+    public void reshuffle(Card[] cards) {
+        for (int i = 0; i < cards.length; i++) {
+            addCard(cards[i]);
+        }
+        shuffle();
     }
 }

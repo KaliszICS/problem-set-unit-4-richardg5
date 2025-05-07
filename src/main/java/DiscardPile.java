@@ -44,15 +44,11 @@ public class DiscardPile {
     }
 
     /**
-     * Adds a card to the discard pile.
+     * Adds a card to the discard pile. Will not add if specified Card is null.
+     * @param card the Card to be added to the DiscardPile
      */
     public void addCard(Card card) {
-        Card[] newDiscardPile = new Card[size() + 1];
-        for (int i = 0; i < size(); i++) {
-            newDiscardPile[i] = getDiscardPile()[i];
-        }
-        newDiscardPile[newDiscardPile.length - 1] = card;
-        this.discardPile = newDiscardPile;
+        this.discardPile = CardUtilities.addCard(getDiscardPile(), card);
     }
 
     /**

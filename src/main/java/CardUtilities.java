@@ -40,6 +40,7 @@ public final class CardUtilities {
      * This String will be formatted as the String representation of each card separated by commas ended by a period.<br><br>
      * 
      * If a card in the pile is null, it will be represented with "0 of Nothing".
+     * @param array an array of Cards to get a String representation of
      * @return a String representing the array of cards
      */
     public static String convertToString(Card[] array) {
@@ -60,5 +61,22 @@ public final class CardUtilities {
             }
         }
         return pileString.toString();
+    }
+
+    /**
+     * Adds the specified Card to the specified array of Cards.
+     * @param arr an array of Cards the Card should be added to
+     * @param card the Card to be added to the array of Cards
+     */
+    public static Card[] addCard(Card[] arr, Card card) {
+        if (card != null) {
+            Card[] newCardArr = new Card[arr.length + 1];
+            for (int i = 0; i < arr.length; i++) {
+                newCardArr[i] = arr[i];
+            }
+            newCardArr[newCardArr.length - 1] = card;
+            return newCardArr;
+        }
+        return arr;
     }
 }
