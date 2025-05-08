@@ -90,7 +90,7 @@ public class Player {
      * @param discardPile the DiscardPile card should be added to
      * @return true if the card exists in hand and was successfully moved, false otherwise
      */
-    public boolean returnCard(Card card, DiscardPile discardPile) {
+    public boolean discardCard(Card card, DiscardPile discardPile) {
         int oldSize = size();
         this.hand = CardUtilities.removeCard(card, discardPile.getDiscardPile());
         if (oldSize != size()) {
@@ -101,7 +101,7 @@ public class Player {
     } 
 
     /**
-     * Removes the specified card from hand and returns it to the given deck. The deck is shuffled once the process is complete.
+     * Removes the specified card from hand and returns it to the given deck.
      * @param card the Card to be removed from hand
      * @param deck the Deck the card should be returned to
      * @return true if the card exists in hand and was successfully moved, false otherwise
