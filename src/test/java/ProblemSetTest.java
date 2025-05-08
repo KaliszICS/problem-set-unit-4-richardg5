@@ -123,4 +123,18 @@ public class ProblemSetTest {
       assertEquals(true, player.returnCard(player.getHand()[0], deck));
       assertEquals(0, player.size());
    }
+
+   @Test
+   public void drawNullCards() {
+      Card[] cards = {null, null, new Card("Ace", "Spades", 0)};
+      Deck deck = new Deck(cards);
+      assertEquals(null, deck.draw());
+      assertEquals(null, deck.draw());
+      assertEquals(1, deck.size());
+      deck.shuffle();
+      deck.draw();
+      deck.shuffle();
+      assertEquals(0, deck.size());
+      assertEquals(null, deck.draw());
+   }
 }

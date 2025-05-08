@@ -15,7 +15,7 @@ public final class CardUtilities {
     public static Card[] removeCard(Card card, Card[] array) {
         int removeIndex = -1;
         for (int i = 0; i < array.length && removeIndex == -1; i++) {
-            if (array[i].equals(card)) {
+            if (card == null || array[i].equals(card)) {
                 removeIndex = i;
             }
         }
