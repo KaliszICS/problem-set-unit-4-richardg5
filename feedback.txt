@@ -1,0 +1,7 @@
+K(30%): 100
+I(30%): 98
+C(10%): 100
+A(30%): 100
+99.4%
+Using an ArrayList as the backend would have simplified things a lot.
+Making your utility methods smaller would be better.  You are doing unnecessary checks in some cases (such as draw) where you already control the input and shouldn't need to check it again.
